@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Go On A Date With Me? 💗</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --pink:#ef6594;
+  --pink-dark:#d83d77;
+  --pink-light:#ffd8e5;
+  --cream:#fffaf7;
+  --text:#7d2948;
+  --soft:#946075;
+  --white:rgba(255,255,255,.82);
+  --border:rgba(255,255,255,.9);
+  --shadow:0 25px 70px rgba(139,62,92,.16);
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:"DM Sans",sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.9),transparent 30%),
+    radial-gradient(circle at 80% 80%,rgba(255,255,255,.7),transparent 30%),
+    linear-gradient(135deg,#ffe7ee,#f8d9e2,#ffeaf0);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:24px;
+}
+
+.background{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.floating-item{
+  position:absolute;bottom:-80px;opacity:.45;animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) rotate(0deg);opacity:0}
+  10%{opacity:.5}
+  90%{opacity:.35}
+  100%{transform:translateY(-120vh) rotate(360deg);opacity:0}
+}
+
+.app{width:min(94%,720px);position:relative;z-index:10}
+.progress-wrap{
+  margin-bottom:14px;
+  background:rgba(255,255,255,.55);
+  border:1px solid rgba(255,255,255,.7);
+  border-radius:999px;
+  padding:5px;
+  box-shadow:0 8px 25px rgba(125,41,72,.08);
+}
+.progress{
+  height:8px;border-radius:999px;
+  background:linear-gradient(90deg,#f98bb0,#e74581);
+  width:7%;transition:width .35s ease;
+}
+
+.card{
+  display:none;width:100%;padding:44px;
+  background:var(--white);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid var(--border);
+  border-radius:34px;
+  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.95);
+  text-align:center;
+  animation:cardIn .5s cubic-bezier(.2,.9,.3,1);
+}
+.card.active{display:block}
+@keyframes cardIn{
+  from{opacity:0;transform:scale(.94) translateY(20px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+h1,h2{font-family:"Playfair Display",serif;color:var(--text)}
+h1{font-size:clamp(2rem,6vw,3.15rem);line-height:1.08;margin:16px 0 18px}
+h2{font-size:clamp(1.75rem,5vw,2.5rem);margin-bottom:8px}
+p{color:var(--soft);line-height:1.6}
+
+.badge{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 13px;border-radius:999px;
+  background:#fff0f5;color:var(--pink-dark);
+  font-size:.84rem;font-weight:800;margin-bottom:10px;
+}
+
+.cute-image,.surprise-icon{
+  width:115px;height:115px;border-radius:28px;margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center;font-size:60px;
+  box-shadow:0 15px 35px rgba(144,53,88,.18);
+}
+.cute-image{background:linear-gradient(145deg,#ffe1ea,#f4bdcd);animation:bounce 2.5s ease-in-out infinite}
+.surprise-icon{background:linear-gradient(145deg,#ff698a,#ef365f);animation:pop 1.3s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+
+button{border:none;font-family:inherit;cursor:pointer}
+.main-btn,.secondary-btn{
+  padding:15px 28px;border-radius:999px;font-weight:800;font-size:1rem;
+  transition:.2s ease;
+}
+.main-btn{
+  color:white;background:linear-gradient(135deg,#f276a0,#e74581);
+  box-shadow:0 12px 25px rgba(223,64,121,.28);
+}
+.main-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 30px rgba(223,64,121,.34)}
+.secondary-btn{color:#7a3a52;background:#f2dfe6}
+.secondary-btn:hover{transform:translateY(-2px);background:#edd2dc}
+.full-btn{width:100%;margin-top:22px}
+.row-btns{display:flex;gap:12px;margin-top:22px}
+.row-btns>*{flex:1}
+
+.buttons{margin-top:24px;min-height:125px;position:relative;display:flex;justify-content:center;align-items:center;gap:20px}
+#yesBtn{font-size:1.08rem;padding:17px 40px;transition:all .2s ease}
+#noBtn{
+  position:absolute;left:calc(50% + 65px);top:36px;padding:14px 27px;border-radius:999px;
+  font-size:1rem;font-weight:700;color:#77415a;background:#eed8e0;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);transition:left .16s ease,top .16s ease,transform .16s ease,font-size .16s ease;
+}
+.tiny-message{margin-top:10px;min-height:23px;font-size:.92rem;color:#bd5379;font-weight:700}
+
+.form-group{text-align:left;margin-top:18px}
+label{display:block;margin-bottom:8px;font-family:"Playfair Display",serif;font-size:1.05rem;font-weight:700}
+input,select,textarea{
+  width:100%;padding:15px 16px;background:rgba(255,255,255,.82);
+  border:2px solid #edc3d0;border-radius:14px;outline:none;
+  font-family:inherit;color:#653449;font-size:1rem;transition:.2s ease;
+}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--pink);box-shadow:0 0 0 4px rgba(238,101,148,.12)}
+
+.grid{margin-top:24px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.grid.three{grid-template-columns:repeat(3,1fr)}
+.choice{
+  padding:20px 12px;border:2px solid transparent;border-radius:20px;
+  background:rgba(252,235,240,.72);transition:.2s ease;color:#654052;
+}
+.choice:hover{transform:translateY(-4px);background:#ffe9ef}
+.choice.selected{border-color:var(--pink);background:#ffe0e9;transform:scale(1.02);box-shadow:0 10px 24px rgba(213,79,127,.14)}
+.choice-emoji{font-size:34px;margin-bottom:7px}
+.choice-name{font-family:"Playfair Display",serif;font-weight:700}
+.choice small{display:block;margin-top:4px;color:#966177}
+
+.random-card{
+  margin-top:22px;padding:18px;border-radius:20px;background:#fff4f7;border:1px dashed #e58ba8;
+}
+.random-card strong{display:block;margin-bottom:5px}
+
+.mystery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.mystery{
+  min-height:125px;border-radius:24px;background:linear-gradient(145deg,#fff,#ffe3ec);
+  box-shadow:0 12px 28px rgba(125,41,72,.1);font-size:43px;transition:.2s ease;
+}
+.mystery:hover{transform:translateY(-6px) rotate(-1deg)}
+.mystery.opened{background:linear-gradient(145deg,#ffe0eb,#fff);transform:scale(1.03)}
+
+.secret-card{
+  margin-top:22px;padding:24px;border-radius:24px;background:#fff2f6;border:1px dashed #e385a5;
+}
+.secret-message{display:none;margin-top:15px;font-family:"Playfair Display",serif;font-size:1.15rem;line-height:1.55}
+
+.ticket{
+  margin-top:22px;padding:24px;border-radius:26px;text-align:left;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,238,245,.95));
+  border:1px solid #efbfd0;box-shadow:0 16px 38px rgba(138,46,80,.12);
+  position:relative;overflow:hidden;
+}
+.ticket:before,.ticket:after{
+  content:"";position:absolute;width:28px;height:28px;border-radius:50%;background:#f8d9e2;top:50%;transform:translateY(-50%);
+}
+.ticket:before{left:-14px}.ticket:after{right:-14px}
+.ticket-top{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;padding-bottom:16px;border-bottom:1px dashed #df9ab1}
+.ticket-title{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:700}
+.ticket-code{font-size:.78rem;font-weight:800;background:#ffdce8;padding:7px 10px;border-radius:999px}
+.summary-row{display:flex;justify-content:space-between;gap:15px;padding:10px 0;border-bottom:1px solid rgba(222,123,157,.14)}
+.summary-row:last-child{border-bottom:none}
+.summary-label{font-weight:800}
+.final-heart{font-size:70px;animation:heartBeat .9s infinite;display:inline-block}
+@keyframes heartBeat{0%,100%{transform:scale(1)}25%{transform:scale(1.14)}45%{transform:scale(1)}65%{transform:scale(1.11)}}
+
+.signature{margin-top:18px;font-family:"Playfair Display",serif;font-style:italic}
+.confetti{
+  position:fixed;width:10px;height:16px;top:-20px;pointer-events:none;z-index:999;
+  animation:confettiFall linear forwards
+}
+@keyframes confettiFall{from{transform:translateY(-10vh) rotate(0deg)}to{transform:translateY(115vh) rotate(800deg)}}
+
+@media(max-width:600px){
+  body{padding:14px}
+  .card{padding:32px 20px;border-radius:28px}
+  .grid,.grid.three{grid-template-columns:repeat(2,1fr)}
+  .mystery-grid{grid-template-columns:repeat(3,1fr)}
+  .buttons{min-height:160px}
+  #noBtn{left:58%;top:82px}
+  .row-btns{flex-direction:column}
+  .ticket-top{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+<div class="background" id="background"></div>
+
+<div class="app">
+  <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
+  <section class="card active" id="screen1">
+    <div class="badge">💘 Very serious question</div>
+    <div class="cute-image">🐶</div>
+    <h1>🌸 Will you go on a date with me? 🌸</h1>
+    <p>Choose very carefully... 👀</p>
+
+    <div class="buttons" id="buttonArea">
+      <button class="main-btn" id="yesBtn" onclick="sayYes()">YES ♥</button>
+      <button id="noBtn">NO 😭</button>
+    </div>
+    <div class="tiny-message" id="noMessage"></div>
+  </section>
+
+  <section class="card" id="screen2">
+    <div class="surprise-icon">😭</div>
+    <h2>WAIT... YOU ACTUALLY SAID YES??</h2>
+    <p style="margin-top:12px">I had an entire rejection recovery plan ready 😭</p>
+    <button class="main-btn full-btn" onclick="showScreen(3)">okay okay, let's plan this →</button>
+  </section>
+
+  <section class="card" id="screen3">
+    <div class="badge">Step 1 • When?</div>
+    <h2>So... when are you free? 📅</h2>
+    <p>Pick our special day and time.</p>
+
+    <div class="form-group">
+      <label>Pick a Day 📅</label>
+      <input type="date" id="dateInput">
+    </div>
+
+    <div class="form-group">
+      <label>What Time? ⏰</label>
+      <select id="timeInput">
+        <option value="">Select a time...</option>
+        <option>11:00 AM</option><option>12:00 PM</option><option>1:00 PM</option>
+        <option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option>
+        <option>5:00 PM</option><option>6:00 PM</option><option>7:00 PM</option>
+        <option>8:00 PM</option><option>9:00 PM</option>
+      </select>
+    </div>
+
+    <button class="main-btn full-btn" onclick="saveDate()">set the date ♥</button>
+  </section>
+
+  <section class="card" id="screen4">
+    <div class="badge">Step 2 • Where?</div>
+    <h2>Where should we go? 📍</h2>
+    <p>Pick the vibe. I promise I won't judge... much.</p>
+
+    <div class="grid" id="locationGrid">
+      <button class="choice" onclick="selectChoice(this,'location','Restaurant 🍽️')"><div class="choice-emoji">🍽️</div><div class="choice-name">Restaurant</div></button>
+      <button class="choice" onclick="selectChoice(this,'location','Cinema 🎬')"><div class="choice-emoji">🎬</div><div class="choice-name">Cinema</div></button>
+      <button class="choice" onclick="selectChoice(this,'location','Coffee Shop ☕')"><div class="choice-emoji">☕</div><div class="choice-name">Coffee</div></button>
+      <button class="choice" onclick="selectChoice(this,'location','Arcade 🕹️')"><div class="choice-emoji">🕹️</div><div class="choice-name">Arcade</div></button>
+      <button class="choice" onclick="selectChoice(this,'location','Park / Walk 🌷')"><div class="choice-emoji">🌷</div><div class="choice-name">Walk</div></button>
+      <button class="choice" onclick="selectChoice(this,'location','Surprise Me 🎁')"><div class="choice-emoji">🎁</div><div class="choice-name">Surprise Me</div></button>
+    </div>
+
+    <button class="main-btn full-btn" onclick="requireAndNext('location',5)">next →</button>
+  </section>
+
+  <section class="card" id="screen5">
+    <div class="badge">Step 3 • Food</div>
+    <h2>What are we eating? 🍽️✨</h2>
+    <p>Arguably the most important decision.</p>
+
+    <div class="grid three" id="foodGrid">
+      <button class="choice" onclick="selectChoice(this,'food','Pizza 🍕')"><div class="choice-emoji">🍕</div><div class="choice-name">Pizza</div></button>
+      <button class="choice" onclick="selectChoice(this,'food','Sushi 🍣')"><div class="choice-emoji">🍣</div><div class="choice-name">Sushi</div></button>
+      <button class="choice" onclick="selectChoice(this,'food','Burgers 🍔')"><div class="choice-emoji">🍔</div><div class="choice-name">Burgers</div></button>
+      <button class="choice" onclick="selectChoice(this,'food','Pasta 🍝')"><div class="choice-emoji">🍝</div><div class="choice-name">Pasta</div></button>
+      <button class="choice" onclick="selectChoice(this,'food','Tacos 🌮')"><div class="choice-emoji">🌮</div><div class="choice-name">Tacos</div></button>
+      <button class="choice" onclick="selectChoice(this,'food','Ramen 🍜')"><div class="choice-emoji">🍜</div><div class="choice-name">Ramen</div></button>
+    </div>
+
+    <button class="main-btn full-btn" onclick="requireAndNext('food',6)">food secured →</button>
+  </section>
+
+  <section class="card" id="screen6">
+    <div class="badge">Step 4 • Activity</div>
+    <h2>What should we do? 🎯</h2>
+    <p>No boring dates allowed.</p>
+
+    <div class="grid" id="activityGrid">
+      <button class="choice" onclick="selectChoice(this,'activity','Bowling 🎳')"><div class="choice-emoji">🎳</div><div class="choice-name">Bowling</div></button>
+      <button class="choice" onclick="selectChoice(this,'activity','Movie 🎬')"><div class="choice-emoji">🎬</div><div class="choice-name">Movie</div></button>
+      <button class="choice" onclick="selectChoice(this,'activity','Mini Golf ⛳')"><div class="choice-emoji">⛳</div><div class="choice-name">Mini Golf</div></button>
+      <button class="choice" onclick="selectChoice(this,'activity','Gaming 🎮')"><div class="choice-emoji">🎮</div><div class="choice-name">Gaming</div></button>
+      <button class="choice" onclick="selectChoice(this,'activity','Shopping 🛍️')"><div class="choice-emoji">🛍️</div><div class="choice-name">Shopping</div></button>
+      <button class="choice" onclick="selectChoice(this,'activity','Long Walk 🌙')"><div class="choice-emoji">🌙</div><div class="choice-name">Long Walk</div></button>
+    </div>
+
+    <div class="random-card">
+      <strong>Can't decide?</strong>
+      <p>Let the website choose the activity + food for us 😂</p>
+      <button class="secondary-btn" style="margin-top:12px" onclick="randomizeDate()">🎰 Random Date Generator</button>
+      <div class="tiny-message" id="randomResult"></div>
+    </div>
+
+    <button class="main-btn full-btn" onclick="requireAndNext('activity',7)">next →</button>
+  </section>
+
+  <section class="card" id="screen7">
+    <div class="badge">Step 5 • Outfit</div>
+    <h2>What's the dress code? 👗✨</h2>
+    <p>I need enough warning to pretend I know fashion.</p>
+
+    <div class="grid" id="outfitGrid">
+      <button class="choice" onclick="selectChoice(this,'outfit','Cute 💗')"><div class="choice-emoji">💗</div><div class="choice-name">Cute</div></button>
+      <button class="choice" onclick="selectChoice(this,'outfit','Casual 👟')"><div class="choice-emoji">👟</div><div class="choice-name">Casual</div></button>
+      <button class="choice" onclick="selectChoice(this,'outfit','Fancy ✨')"><div class="choice-emoji">✨</div><div class="choice-name">Fancy</div></button>
+      <button class="choice" onclick="selectChoice(this,'outfit','Surprise Me 😌')"><div class="choice-emoji">😌</div><div class="choice-name">Surprise Me</div></button>
+    </div>
+
+    <button class="main-btn full-btn" onclick="requireAndNext('outfit',8)">fashion crisis solved →</button>
+  </section>
+
+  <section class="card" id="screen8">
+    <div class="badge">Step 6 • Soundtrack</div>
+    <h2>Pick our date song 🎵</h2>
+    <p>Every unnecessarily dramatic date needs a soundtrack.</p>
+
+    <div class="grid" id="songGrid">
+      <button class="choice" onclick="selectChoice(this,'song','Die With A Smile 🎵')"><div class="choice-emoji">🎤</div><div class="choice-name">Die With A Smile</div></button>
+      <button class="choice" onclick="selectChoice(this,'song','Perfect 💞')"><div class="choice-emoji">💞</div><div class="choice-name">Perfect</div></button>
+      <button class="choice" onclick="selectChoice(this,'song','Until I Found You 🌙')"><div class="choice-emoji">🌙</div><div class="choice-name">Until I Found You</div></button>
+      <button class="choice" onclick="selectChoice(this,'song','You Choose 🎧')"><div class="choice-emoji">🎧</div><div class="choice-name">You Choose</div></button>
+    </div>
+
+    <div class="form-group">
+      <label>Or type your own song 🎶</label>
+      <input id="customSong" placeholder="Your song..." oninput="setCustomSong()">
+    </div>
+
+    <button class="main-btn full-btn" onclick="requireAndNext('song',9)">soundtrack selected →</button>
+  </section>
+
+  <section class="card" id="screen9">
+    <div class="badge">Step 7 • Mystery</div>
+    <h2>Pick ONE mystery box 🎁</h2>
+    <p>You only get one. Choose wisely.</p>
+
+    <div class="mystery-grid">
+      <button class="mystery" onclick="openMystery(this,1)">🎁</button>
+      <button class="mystery" onclick="openMystery(this,2)">🎁</button>
+      <button class="mystery" onclick="openMystery(this,3)">🎁</button>
+    </div>
+
+    <div class="random-card" id="mysteryResult">Your surprise is hiding in one of those boxes 👀</div>
+    <button class="main-btn full-btn" onclick="requireAndNext('mystery',10)">accept my fate →</button>
+  </section>
+
+  <section class="card" id="screen10">
+    <div class="badge">Almost done...</div>
+    <h2>One secret message 💌</h2>
+    <p>Because apparently making an entire website wasn't dramatic enough.</p>
+
+    <div class="secret-card">
+      <div style="font-size:50px">💌</div>
+      <button class="main-btn" style="margin-top:10px" onclick="revealSecret()">OPEN SECRET MESSAGE</button>
+      <div class="secret-message" id="secretMessage">
+        I don't really care what we eat or where we go. I just wanted an excuse to spend time with you. 💗
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Optional: leave me a tiny message back 🥹</label>
+      <textarea id="replyMessage" placeholder="Type something cute... or roast me 😂"></textarea>
+    </div>
+
+    <button class="main-btn full-btn" onclick="finishDate()">make it official 💗</button>
+  </section>
+
+  <section class="card" id="screen11">
+    <div class="final-heart">💗</div>
+    <h2>IT'S OFFICIALLY A DATE!</h2>
+    <p>Your extremely serious date ticket has been generated.</p>
+
+    <div class="ticket" id="dateTicket">
+      <div class="ticket-top">
+        <div>
+          <div class="ticket-title">DATE CONFIRMED 💗</div>
+          <small>This ticket may cause excessive smiling.</small>
+        </div>
+        <div class="ticket-code" id="ticketCode">DATE-0000</div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="summary-row"><span class="summary-label">📅 Day</span><span id="finalDate"></span></div>
+        <div class="summary-row"><span class="summary-label">⏰ Time</span><span id="finalTime"></span></div>
+        <div class="summary-row"><span class="summary-label">📍 Place</span><span id="finalLocation"></span></div>
+        <div class="summary-row"><span class="summary-label">🍽️ Food</span><span id="finalFood"></span></div>
+        <div class="summary-row"><span class="summary-label">🎯 Activity</span><span id="finalActivity"></span></div>
+        <div class="summary-row"><span class="summary-label">👗 Outfit</span><span id="finalOutfit"></span></div>
+        <div class="summary-row"><span class="summary-label">🎵 Song</span><span id="finalSong"></span></div>
+        <div class="summary-row"><span class="summary-label">🎁 Mystery</span><span id="finalMystery"></span></div>
+      </div>
+    </div>
+
+    <div class="row-btns">
+      <button class="main-btn" onclick="addToCalendar()">📅 Add to Calendar</button>
+      <button class="secondary-btn" onclick="window.print()">📸 Save / Print Ticket</button>
+    </div>
+
+    <p class="signature">
+      P.S. Normal people text.<br>
+      I made you a whole date-planning website instead. 💕
+    </p>
+  </section>
+</div>
+
+<script>
+const state = {
+  date:"",
+  time:"",
+  location:"",
+  food:"",
+  activity:"",
+  outfit:"",
+  song:"",
+  mystery:"",
+  reply:""
+};
+
+let noAttempts = 0;
+let mysteryOpened = false;
+
+function showScreen(number){
+  document.querySelectorAll(".card").forEach(c=>c.classList.remove("active"));
+  document.getElementById("screen"+number).classList.add("active");
+  const pct = Math.max(7, Math.min(100, (number/11)*100));
+  document.getElementById("progress").style.width = pct+"%";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function sayYes(){
+  createConfetti(80);
+  setTimeout(()=>showScreen(2),350);
+}
+
+const noBtn=document.getElementById("noBtn");
+const noMessage=document.getElementById("noMessage");
+const yesBtn=document.getElementById("yesBtn");
+
+function moveNoButton(){
+  noAttempts++;
+  const card=document.getElementById("screen1");
+  const rect=card.getBoundingClientRect();
+  const maxX=Math.max(40,rect.width-noBtn.offsetWidth-45);
+  const maxY=145;
+
+  noBtn.style.left=Math.floor(Math.random()*maxX)+"px";
+  noBtn.style.top=Math.floor(Math.random()*maxY)+"px";
+
+  const messages=[
+    "Nice try 😭",
+    "Why are you chasing NO?? 😂",
+    "The YES button is literally right there 👀",
+    "NO has entered witness protection.",
+    "Okay now you're just being difficult 😭",
+    "I did not code emotional damage into this website.",
+    "NO button is getting tired.",
+    "Fine. YES is getting bigger 😌",
+    "Last warning 😂",
+    "NO has officially resigned 💗"
+  ];
+
+  noMessage.innerText=messages[Math.min(noAttempts-1,messages.length-1)];
+
+  if(noAttempts>=4){
+    const size=Math.max(.55,1-(noAttempts-3)*.08);
+    noBtn.style.transform=`scale(${size})`;
+  }
+  if(noAttempts>=6){
+    const yesScale=Math.min(1.45,1+(noAttempts-5)*.07);
+    yesBtn.style.transform=`scale(${yesScale})`;
+  }
+  if(noAttempts>=10){
+    noBtn.innerText="YES but shy 💗";
+    noBtn.onclick=sayYes;
+  }
+}
+
+noBtn.addEventListener("mouseenter",moveNoButton);
+noBtn.addEventListener("click",e=>{e.preventDefault();moveNoButton()});
+noBtn.addEventListener("touchstart",e=>{e.preventDefault();moveNoButton()},{passive:false});
+
+const dateInput=document.getElementById("dateInput");
+const today=new Date();
+const yyyy=today.getFullYear();
+const mm=String(today.getMonth()+1).padStart(2,"0");
+const dd=String(today.getDate()).padStart(2,"0");
+dateInput.min=`${yyyy}-${mm}-${dd}`;
+
+function saveDate(){
+  state.date=document.getElementById("dateInput").value;
+  state.time=document.getElementById("timeInput").value;
+  if(!state.date){alert("You forgot to choose our day 😭💗");return;}
+  if(!state.time){alert("Okay but what time am I picking you up? 😂");return;}
+  saveLocal();
+  showScreen(4);
+}
+
+function selectChoice(button,key,value){
+  const group=button.parentElement.querySelectorAll(".choice");
+  group.forEach(item=>item.classList.remove("selected"));
+  button.classList.add("selected");
+  state[key]=value;
+  if(key==="song") document.getElementById("customSong").value="";
+  saveLocal();
+}
+
+function setCustomSong(){
+  const value=document.getElementById("customSong").value.trim();
+  if(value){
+    document.querySelectorAll("#songGrid .choice").forEach(x=>x.classList.remove("selected"));
+    state.song=value+" 🎵";
+    saveLocal();
+  }
+}
+
+function requireAndNext(key,next){
+  if(!state[key]){
+    alert("You have to choose one first 😭");
+    return;
+  }
+  showScreen(next);
+}
+
+function randomizeDate(){
+  const foods=["Pizza 🍕","Sushi 🍣","Burgers 🍔","Pasta 🍝","Tacos 🌮","Ramen 🍜"];
+  const activities=["Bowling 🎳","Movie 🎬","Mini Golf ⛳","Gaming 🎮","Shopping 🛍️","Long Walk 🌙"];
+  state.food=foods[Math.floor(Math.random()*foods.length)];
+  state.activity=activities[Math.floor(Math.random()*activities.length)];
+  document.getElementById("randomResult").innerText=`The universe chose: ${state.food} + ${state.activity}`;
+  saveLocal();
+}
+
+function openMystery(button,num){
+  if(mysteryOpened){
+    document.getElementById("mysteryResult").innerText="No cheating 😭 You already picked your box.";
+    return;
+  }
+
+  mysteryOpened=true;
+  document.querySelectorAll(".mystery").forEach(x=>x.disabled=true);
+  button.classList.add("opened");
+
+  const surprises={
+    1:"Dessert is on me 🍰",
+    2:"You control the playlist all night 🎧",
+    3:"You get one ridiculous surprise gift 🎁"
+  };
+
+  state.mystery=surprises[num];
+  button.innerText=num===1?"🍰":num===2?"🎧":"🎁";
+  document.getElementById("mysteryResult").innerText="You unlocked: "+state.mystery;
+  createConfetti(45);
+  saveLocal();
+}
+
+function revealSecret(){
+  document.getElementById("secretMessage").style.display="block";
+  createConfetti(30);
+}
+
+function finishDate(){
+  state.reply=document.getElementById("replyMessage").value.trim();
+
+  const dateObject=new Date(state.date+"T00:00:00");
+  const prettyDate=dateObject.toLocaleDateString("en-GB",{
+    weekday:"long",day:"numeric",month:"long",year:"numeric"
+  });
+
+  document.getElementById("finalDate").innerText=prettyDate;
+  document.getElementById("finalTime").innerText=state.time;
+  document.getElementById("finalLocation").innerText=state.location;
+  document.getElementById("finalFood").innerText=state.food;
+  document.getElementById("finalActivity").innerText=state.activity;
+  document.getElementById("finalOutfit").innerText=state.outfit;
+  document.getElementById("finalSong").innerText=state.song;
+  document.getElementById("finalMystery").innerText=state.mystery;
+
+  const code="DATE-"+Math.floor(1000+Math.random()*9000);
+  document.getElementById("ticketCode").innerText=code;
+
+  saveLocal();
+  showScreen(11);
+  createConfetti(180);
+}
+
+function addToCalendar(){
+  if(!state.date || !state.time){
+    alert("Date details are missing.");
+    return;
+  }
+
+  const [time,period]=state.time.split(" ");
+  let [hour,minute]=time.split(":").map(Number);
+  if(period==="PM" && hour!==12) hour+=12;
+  if(period==="AM" && hour===12) hour=0;
+
+  const start=new Date(`${state.date}T${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}:00`);
+  const end=new Date(start.getTime()+3*60*60*1000);
+
+  const fmt=d=>{
+    const pad=n=>String(n).padStart(2,"0");
+    return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+  };
+
+  const details=[
+    `Place: ${state.location}`,
+    `Food: ${state.food}`,
+    `Activity: ${state.activity}`,
+    `Outfit: ${state.outfit}`,
+    `Song: ${state.song}`,
+    `Mystery: ${state.mystery}`
+  ].join("\\n");
+
+  const ics=`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Date Night//EN
+BEGIN:VEVENT
+DTSTART:${fmt(start)}
+DTEND:${fmt(end)}
+SUMMARY:Our Date 💗
+DESCRIPTION:${details.replace(/\n/g,"\\n")}
+END:VEVENT
+END:VCALENDAR`;
+
+  const blob=new Blob([ics],{type:"text/calendar;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="our-date.ics";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function saveLocal(){
+  localStorage.setItem("dateNightState",JSON.stringify(state));
+}
+
+function createConfetti(amount){
+  const colors=["#ff477e","#ff85a1","#ffd166","#9b5de5","#00bbf9","#f15bb5"];
+  for(let i=0;i<amount;i++){
+    const piece=document.createElement("div");
+    piece.className="confetti";
+    piece.style.left=Math.random()*100+"vw";
+    piece.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+    piece.style.animationDuration=(Math.random()*2+2.5)+"s";
+    piece.style.animationDelay=(Math.random()*.8)+"s";
+    piece.style.width=(Math.random()*8+6)+"px";
+    piece.style.height=(Math.random()*9+8)+"px";
+    piece.style.borderRadius=Math.random()>.5?"50%":"2px";
+    document.body.appendChild(piece);
+    setTimeout(()=>piece.remove(),5000);
+  }
+}
+
+function createBackgroundItems(){
+  const container=document.getElementById("background");
+  const items=["🌸","💗","💕","✨","🌷","♡"];
+  for(let i=0;i<28;i++){
+    const el=document.createElement("span");
+    el.className="floating-item";
+    el.innerText=items[Math.floor(Math.random()*items.length)];
+    el.style.left=Math.random()*100+"%";
+    el.style.fontSize=(Math.random()*18+12)+"px";
+    el.style.animationDuration=(Math.random()*10+10)+"s";
+    el.style.animationDelay=(Math.random()*12)+"s";
+    container.appendChild(el);
+  }
+}
+
+createBackgroundItems();
+</script>
+</body>
+</html>
